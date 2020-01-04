@@ -1,0 +1,17 @@
+package com.cineast_android.business.api.response
+
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+import com.cineast_android.core.model.Cast
+import com.cineast_android.core.model.Crew
+
+
+class MovieCreditsResponse {
+    @SerializedName("crew")
+    @Expose
+    var crew: List<Crew> = listOf()
+
+    @SerializedName("cast")
+    @Expose
+    var cast: List<Cast> = listOf()
+}

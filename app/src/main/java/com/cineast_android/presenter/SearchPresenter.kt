@@ -1,0 +1,68 @@
+package com.cineast_android.presenter
+
+
+import android.os.Bundle
+import com.cineast_android.business.callback.AsyncResponse
+import com.cineast_android.core.model.CineastError
+import com.cineast_android.business.api.response.MovieResponse
+import com.cineast_android.business.api.response.PersonalityResponse
+import com.cineast_android.vu.SearchVu
+import io.reactivex.android.schedulers.AndroidSchedulers
+import timber.log.Timber
+
+class SearchPresenter: BasePresenter<SearchVu>() {
+
+
+    override fun onLink(vu: SearchVu, inState: Bundle?, args: Bundle) {
+        super.onLink(vu, inState, args)
+
+        rxSubs.add(vu.searchQueryObservable
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe {argQuery ->
+                    vu.showLoading()
+
+                    if (vu.isMovieSearchScreen) {
+                        searchMovies(argQuery)
+                    } else {
+                        searchPeople(argQuery)
+                    }
+                })
+    }
+
+
+    fun searchMovies(argQuery: String) {
+        contentManager.searchMovies(argQuery, object: AsyncResponse<MovieResponse>{
+            override fun onSuccess(response: MovieResponse?) {
+                handler.post {
+                    vu?.hideLoading()
+                    vu?.openItemListActivity(response?.results)
+                }
+            }
+
+            override fun onFail(error: CineastError) {
+                Timber.d( "response: ${error}")
+                handler.post {
+                    vu?.hideLoading()
+                }
+            }
+        })
+    }
+
+    fun searchPeople(argQuery: String) {
+        contentManager.searchPeople(argQuery, object: AsyncResponse<PersonalityResponse> {
+            override fun onSuccess(response: PersonalityResponse?) {
+                handler.post {
+                    vu?.hideLoading()
+                    vu?.openItemListActivity(response?.results)
+                }
+            }
+
+            override fun onFail(error: CineastError) {
+                Timber.d("response: ${error}")
+                handler.post {
+                    vu?.hideLoading()
+                }
+            }
+        })
+    }
+}
