@@ -7,6 +7,7 @@ import elieomatuku.cineast_android.business.client.TmdbContentClient
 import elieomatuku.cineast_android.business.service.ConnectionService
 import elieomatuku.cineast_android.business.ContentManager
 import elieomatuku.cineast_android.business.client.TmdbUserClient
+import elieomatuku.cineast_android.core.CoreKodeinModule
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
