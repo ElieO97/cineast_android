@@ -1,7 +1,6 @@
-package elieomatuku.cineast_android
+package elieomatuku.cineast_android.database
 
 import android.content.Context
-import elieomatuku.cineast_android.database.ContentDatabase
 import elieomatuku.cineast_android.database.repository.ContentRepository
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
